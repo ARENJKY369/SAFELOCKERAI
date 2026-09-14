@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CKS9 · Smart Safe — AI Tamper Detection</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">🛡️</span>
+    <div>
+      <h1>CKS9 <span class="thin">Smart Safe</span></h1>
+      <p>AI Tamper Detection · Security Dashboard</p>
+    </div>
+  </div>
+  <div class="top-meta">
+    <span id="cam-badge" class="badge">CAM · —</span>
+    <span id="clock" class="clock">--:--:--</span>
+  </div>
+</header>
+
+<main class="grid">
+
+  <!-- big status card -->
+  <section id="status-card" class="card status-card s-normal">
+    <div class="status-top">
+      <span class="status-label">SYSTEM STATE</span>
+      <span class="dot"></span>
+    </div>
+    <div id="status-icon" class="status-icon">✅</div>
+    <div id="status-text" class="status-text">NORMAL</div>
+    <div id="status-sub" class="status-sub">All sensors quiet · perimeter secure</div>
+    <div class="status-foot">
+      <span>⏱ <span id="last-event">—</span></span>
+      <span class="dim">upd <span id="updated">—</span></span>
+    </div>
+  </section>
+
+  <!-- lock -->
+  <section id="lock-card" class="card lock-card">
+    <div id="lock-icon" class="lock-icon">🔒</div>
+    <div class="lock-info">
+      <div id="lock-text" class="lock-text">LOCKED</div>
+      <div id="lock-sub" class="dim">Deadbolt engaged</div>
+    </div>
+  </section>
+
+  <!-- sensor tiles -->
+  <section class="tiles">
+    <div id="tile-pir" class="card tile">
+      <div class="tile-head"><span class="tile-icon">👁️</span> PIR MOTION</div>
+      <div id="pir-val" class="tile-val">CLEAR</div>
+      <div class="tile-sub">passive infrared</div>
+    </div>
+    <div id="tile-vib" class="card tile">
+      <div class="tile-head"><span class="tile-icon">〰️</span> VIBRATION</div>
+      <div id="vib-val" class="tile-val">QUIET</div>
+      <div class="tile-sub">accelerometer</div>
+    </div>
+    <div id="tile-door" class="card tile">
+      <div class="tile-head"><span class="tile-icon">🚪</span> DOOR</div>
+      <div id="door-val" class="tile-val">CLOSED</div>
+      <div class="tile-sub">reed switch</div>
+    </div>
+  </section>
+
+  <!-- camera / CNN -->
+  <section class="card cam-card">
+    <div class="card-title">📷 CNN VISION <span id="det-badge" class="badge small clear">SCANNING</span></div>
+    <div class="cam-wrap">
+      <img id="cam" src="/video_feed" alt="live camera feed">
+      <div id="cam-off" class="cam-off hidden">camera offline</div>
+    </div>
+    <div class="conf-row">
+      <span class="conf-label">person conf.</span>
+      <div class="conf-bar"><div id="conf-fill" class="conf-fill" style="width:0%"></div></div>
+      <span id="conf-val" class="conf-val">0%</span>
+    </div>
+    <div class="cam-meta">consecutive person frames: <b id="pf">0</b><span class="dim"> · 4 → ATTENTIVE · 10 → TAMPER</span></div>
+  </section>
+
+  <!-- PIN keypad -->
+  <section class="card pin-card">
+    <div class="card-title">🔑 PIN AUTHENTICATION</div>
+    <div id="pin-display" class="pin-display">
+      <span class="pin-cell"></span><span class="pin-cell"></span><span class="pin-cell"></span><span class="pin-cell"></span>
+    </div>
+    <div id="pin-msg" class="pin-msg dim">enter 4-digit PIN</div>
+    <div class="keypad">
+      <button class="key" data-k="1">1</button><button class="key" data-k="2">2</button><button class="key" data-k="3">3</button>
+      <button class="key" data-k="4">4</button><button class="key" data-k="5">5</button><button class="key" data-k="6">6</button>
+      <button class="key" data-k="7">7</button><button class="key" data-k="8">8</button><button class="key" data-k="9">9</button>
+      <button class="key fn" data-k="C">C</button><button class="key" data-k="0">0</button><button class="key fn" data-k="#">⏎</button>
+    </div>
+  </section>
+
+  <!-- simulation controls -->
+  <section class="card sim-card">
+    <div class="card-title">🎮 SENSOR SIMULATION <span class="dim small">hardware not wired yet</span></div>
+    <div class="sim-buttons">
+      <button id="btn-pir" class="btn warn">👁️ PIR pulse</button>
+      <button id="btn-vib" class="btn warn">〰️ Vibration</button>
+      <button id="btn-door" class="btn">🚪 Open door</button>
+      <button id="btn-reset" class="btn ghost">♻️ Reset system</button>
+    </div>
+    <p class="hint dim">PIR / vibration fire 4&nbsp;s pulses · door toggles latch · SIM camera: a PIR pulse makes a person appear so the CNN temporal logic can be demoed without a webcam.</p>
+  </section>
+
+  <!-- event log -->
+  <section class="card events-card">
+    <div class="card-title">📜 EVENT LOG <span class="dim small">last 50 · SQLite</span><span id="ev-count" class="badge small right">0</span></div>
+    <ul id="events" class="events"><li class="dim">loading…</li></ul>
+  </section>
+
+</main>
+
+<footer class="footer">CKS9 engineering prototype — Flask · OpenCV MobileNet-SSD · SQLite</footer>
+
+<script src="/app.js"></script>
+</body>
+</html>

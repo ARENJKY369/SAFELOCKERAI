@@ -1,0 +1,6 @@
+flask>=3.0
+flask-cors>=4.0
+# pinned to 4.x: OpenCV 5.x removed the Caffe importer (readNetFromCaffe)
+# required to load MobileNet-SSD deploy.prototxt + caffemodel
+opencv-python>=4.8,<5.0
+numpy>=1.24
